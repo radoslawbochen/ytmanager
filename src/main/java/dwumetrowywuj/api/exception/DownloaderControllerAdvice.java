@@ -1,9 +1,8 @@
 package dwumetrowywuj.api.exception;
 
-import dwumetrowywuj.configuration.objectmapper.ObjectMapper;
 import dwumetrowywuj.configuration.objectmapper.ObjectMapperException;
+import dwumetrowywuj.downloader.YoutubeDownloaderException;
 import dwumetrowywuj.youtube.client.YoutubeClientException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,9 +13,6 @@ import java.util.HashMap;
 
 @ControllerAdvice
 public class DownloaderControllerAdvice {
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @ExceptionHandler(YoutubeClientException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -29,6 +25,17 @@ public class DownloaderControllerAdvice {
         } else {
             exceptionResponse.setErrorMessage(e.getCause().getMessage());
         }
+
+        return exceptionResponse;
+    }
+
+    @ExceptionHandler({YoutubeDownloaderException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ExceptionResponse handleYoutubeDownloaderException(YoutubeDownloaderException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e);
+
+        exceptionResponse.setErrorMessage(e.getMessage());
 
         return exceptionResponse;
     }

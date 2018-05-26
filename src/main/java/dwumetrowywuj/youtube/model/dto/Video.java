@@ -1,4 +1,4 @@
-package dwumetrowywuj.api.model;
+package dwumetrowywuj.youtube.model.dto;
 
 public class Video {
 

@@ -7,12 +7,12 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ApiModelMapper {
 
-    Playlist dtoToModel(dwumetrowywuj.downloader.dto.Playlist source);
+    Playlist dtoToModel(dwumetrowywuj.youtube.model.dto.Playlist source);
 
-    dwumetrowywuj.downloader.dto.Playlist modelToDto(Playlist source);
+    dwumetrowywuj.youtube.model.dto.Playlist modelToDto(Playlist source);
 
-    Video dtoToModel(dwumetrowywuj.downloader.dto.Video source);
+    Video dtoToModel(dwumetrowywuj.youtube.model.dto.Video source);
 
-    dwumetrowywuj.downloader.dto.Video modelToDto(Video source);
+    dwumetrowywuj.youtube.model.dto.Video modelToDto(Video source);
 
 }

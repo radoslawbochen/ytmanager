@@ -1,33 +1,34 @@
 package dwumetrowywuj.api;
 
 import dwumetrowywuj.api.mapper.ApiMapper;
-import dwumetrowywuj.downloader.DownloaderServiceImpl;
+import dwumetrowywuj.api.model.DownloadRequest;
+import dwumetrowywuj.downloader.DownloaderService;
+import dwumetrowywuj.youtube.facade.YoutubeService;
 import dwumetrowywuj.api.model.PlaylistRequest;
 import dwumetrowywuj.api.model.PlaylistResponse;
-import dwumetrowywuj.youtube.client.YoutubeClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DownloaderController {
 
     @Autowired
+    private DownloaderService downloaderService;
+
+    @Autowired
     private ApiMapper apiMapper;
 
     @Autowired
-    private DownloaderServiceImpl downloaderService;
+    private YoutubeService youtubeService;
 
-    @Autowired
-    private YoutubeClient client;
-
-    @PostMapping("/download")
-    public PlaylistResponse downloadPlaylist(@RequestBody PlaylistRequest playlistRequest) {
-        PlaylistResponse response =
-                apiMapper.map(downloaderService.getPlaylist(playlistRequest.getPlaylistId()));
-
-        return response;
+    @GetMapping("/playlist")
+    public PlaylistResponse getPlaylist(@RequestParam String playlistId) {
+        return apiMapper.map(youtubeService.getPlaylist(playlistId));
     }
 
+
+    @PostMapping("/playlist/download")
+    public void downloadPlaylist(@RequestBody DownloadRequest downloadRequest) {
+        downloaderService.downloadAll(downloadRequest.getVideoIdList(), downloadRequest.getDirectory());
+    }
 }

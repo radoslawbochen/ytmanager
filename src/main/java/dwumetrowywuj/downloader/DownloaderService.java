@@ -1,10 +1,9 @@
 package dwumetrowywuj.downloader;
 
-
-import dwumetrowywuj.downloader.dto.Playlist;
+import java.util.Collection;
 
 public interface DownloaderService {
 
-    public Playlist getPlaylist(String link);
+     void downloadAll(Collection<String> videoIds, String directory);
 
 }
